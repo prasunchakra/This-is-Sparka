@@ -21,3 +21,5 @@ Having all set up
 * Submit a python file to process using ```spark-submit xyz.py```
 
 
+#### Running Spark Kafka Consumer
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.1.0 sparkConsumer.py

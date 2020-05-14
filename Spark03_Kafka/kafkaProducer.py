@@ -9,24 +9,17 @@ class TweetsListener(StreamListener):
 
     def __init__(self, kafka_producer):
         super().__init__()
-        print("Tweets producer initialized")
         self.producer = kafka_producer
+        print("Tweets Producer Initialized")
 
-    def on_data(self, data):
-
+    def on_data(self, raw_data):
         try:
-            json_data = json.loads(data)
-            words = json_data["text"].split()
-            hash_tags = list(filter(lambda x: x.lower().startswith("#"), words))
-
-            if len(hash_tags) != 0:
-                for hashtag in hash_tags:
-                    print(hashtag)
-                    self.producer.produce(bytes(hashtag, "utf-8"))
-
+            json_data = json.loads(raw_data)
+            tweet = json_data['text']
+            print("\n {} \n".format(tweet))
+            self.producer.produce(bytes(json.dumps(tweet), "ascii"))
         except KeyError as e:
             print("Error on_data: %s" % str(e))
-
         return True
 
     def on_error(self, status):
@@ -35,11 +28,11 @@ class TweetsListener(StreamListener):
 
 
 def connect_to_twitter(kafka_producer, tracks):
-    api_key = " "
-    api_secret = " "
+    api_key = "N3BhfveA3Q4mXCtyRRphCrC7v"
+    api_secret = "6UFnndGzuMwKKIldE2kw9syulo3Hb4gVwQ14umDP43jTdv9x1s"
 
-    access_token = " "
-    access_token_secret = " "
+    access_token = "368413415-5FaufzgFTozESYU00xp6nxrxoiUUp1IIhThVHHOp"
+    access_token_secret = "c1JV2hFifKz2WFiLxLnpfrBPqmgeBLH5kBk5mqeq8PF9B"
 
     auth = OAuthHandler(api_key, api_secret)
     auth.set_access_token(access_token, access_token_secret)
@@ -52,10 +45,10 @@ if __name__ == "__main__":
     host = "127.0.0.1"
     port = "9092"
     topic = "tweet_analytics"
-    tags = "IPL"
+    tracks = "IPL"
 
     kafkaClient = pykafka.KafkaClient(host + ":" + port)
 
     kafkaProducer = kafkaClient.topics[bytes(topic, "utf-8")].get_producer()
 
-    connect_to_twitter(kafkaProducer, tags)
+    connect_to_twitter(kafkaProducer, tracks)
