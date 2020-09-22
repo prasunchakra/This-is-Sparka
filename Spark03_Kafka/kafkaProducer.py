@@ -27,18 +27,18 @@ class TweetsListener(StreamListener):
         return True
 
 
-def connect_to_twitter(kafka_producer, tracks):
-    api_key = "N3BhfveA3Q4mXCtyRRphCrC7v"
-    api_secret = "6UFnndGzuMwKKIldE2kw9syulo3Hb4gVwQ14umDP43jTdv9x1s"
+def connect_to_twitter(kafka_producer, track):
+    api_key = " "
+    api_secret = " "
 
-    access_token = "368413415-5FaufzgFTozESYU00xp6nxrxoiUUp1IIhThVHHOp"
-    access_token_secret = "c1JV2hFifKz2WFiLxLnpfrBPqmgeBLH5kBk5mqeq8PF9B"
+    access_token = " "
+    access_token_secret = " "
 
     auth = OAuthHandler(api_key, api_secret)
     auth.set_access_token(access_token, access_token_secret)
 
     twitter_stream = Stream(auth, TweetsListener(kafka_producer))
-    twitter_stream.filter(track=tracks, languages=["en"])
+    twitter_stream.filter(track=track, languages=["en"])
 
 
 if __name__ == "__main__":

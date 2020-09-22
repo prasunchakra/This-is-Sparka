@@ -22,4 +22,6 @@ Having all set up
 
 
 #### Running Spark Kafka Consumer
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.1.0 sparkConsumer.py
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 sparkConsumer.py
+
+here 2.4.5 is the spark version
